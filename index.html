@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Planner - Organize Your Academic Life</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+     Header 
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">📚 Smart Study Planner</h1>
+            <div class="header-actions">
+                <button class="btn-icon" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+     Main Content 
+    <main class="main-content">
+        <div class="container">
+             Stats Overview 
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="totalTasks">0</h3>
+                        <p class="stat-label">Total Tasks</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="completedTasks">0</h3>
+                        <p class="stat-label">Completed</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏰</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="pendingTasks">0</h3>
+                        <p class="stat-label">Pending</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-content">
+                        <h3 class="stat-value" id="progressPercent">0%</h3>
+                        <p class="stat-label">Progress</p>
+                    </div>
+                </div>
+            </section>
+
+             Add Task Section 
+            <section class="add-task-section">
+                <div class="card">
+                    <h2 class="section-title">Add New Study Task</h2>
+                    <form id="taskForm" class="task-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskTitle">Task Title</label>
+                                <input type="text" id="taskTitle" placeholder="e.g., Study Chapter 5" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskSubject">Subject</label>
+                                <input type="text" id="taskSubject" placeholder="e.g., Mathematics" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskDate">Due Date</label>
+                                <input type="date" id="taskDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskTime">Time</label>
+                                <input type="time" id="taskTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskPriority">Priority</label>
+                                <select id="taskPriority" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDescription">Description (Optional)</label>
+                            <textarea id="taskDescription" rows="3" placeholder="Add notes or details about this task..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <span>➕</span> Add Task
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+             Filter and Sort 
+            <section class="filter-section">
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="filterPriority">Filter by Priority:</label>
+                        <select id="filterPriority">
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterStatus">Filter by Status:</label>
+                        <select id="filterStatus">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="sortBy">Sort by:</label>
+                        <select id="sortBy">
+                            <option value="date">Due Date</option>
+                            <option value="priority">Priority</option>
+                            <option value="subject">Subject</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+             Tasks List 
+            <section class="tasks-section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Study Tasks</h2>
+                    <button class="btn-secondary" id="clearCompleted">Clear Completed</button>
+                </div>
+                <div id="tasksList" class="tasks-list">
+                     Tasks will be dynamically added here 
+                </div>
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">📖</div>
+                    <h3>No tasks yet!</h3>
+                    <p>Start by adding your first study task above.</p>
+                </div>
+            </section>
+
+             Timeline Section 
+            <section class="timeline-section">
+                <h2 class="section-title">Study Timeline</h2>
+                <div id="timeline" class="timeline">
+                     Timeline items will be dynamically added here 
+                </div>
+            </section>
+
+             Progress Section 
+            <section class="progress-section">
+                <div class="card">
+                    <h2 class="section-title">Overall Progress</h2>
+                    <div class="progress-container">
+                        <div class="progress-circle">
+                            <svg class="progress-ring" width="200" height="200">
+                                <circle class="progress-ring-circle-bg" cx="100" cy="100" r="90"></circle>
+                                <circle class="progress-ring-circle" cx="100" cy="100" r="90" id="progressCircle"></circle>
+                            </svg>
+                            <div class="progress-text">
+                                <span class="progress-value" id="progressValue">0%</span>
+                                <span class="progress-label">Complete</span>
+                            </div>
+                        </div>
+                        <div class="progress-details">
+                            <div class="progress-item">
+                                <span class="progress-item-label">Total Tasks:</span>
+                                <span class="progress-item-value" id="progressTotal">0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-item-label">Completed:</span>
+                                <span class="progress-item-value" id="progressCompleted">0</span>
+                            </div>
+                            <div class="progress-item">
+                                <span class="progress-item-label">Remaining:</span>
+                                <span class="progress-item-value" id="progressRemaining">0</span>
+                            </div>
+                            <div class="motivational-quote" id="motivationalQuote">
+                                "Success is the sum of small efforts repeated day in and day out."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+     Footer 
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Smart Study Planner. Built with HTML, CSS & JavaScript.</p>
+        </div>
+    </footer>
+
+     Edit Modal 
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Task</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="editTaskForm">
+                <div class="form-group">
+                    <label for="editTaskTitle">Task Title</label>
+                    <input type="text" id="editTaskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskSubject">Subject</label>
+                    <input type="text" id="editTaskSubject" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editTaskDate">Due Date</label>
+                        <input type="date" id="editTaskDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTaskTime">Time</label>
+                        <input type="time" id="editTaskTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskPriority">Priority</label>
+                    <select id="editTaskPriority" required>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskDescription">Description</label>
+                    <textarea id="editTaskDescription" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelEdit">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
