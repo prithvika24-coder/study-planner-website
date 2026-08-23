@@ -16,6 +16,7 @@ const filterPriority = document.getElementById("filterPriority")
 const filterStatus = document.getElementById("filterStatus")
 const sortBy = document.getElementById("sortBy")
 const clearCompletedBtn = document.getElementById("clearCompleted")
+const searchTask = document.getElementById("searchTask")
 
 // Motivational Quotes
 const quotes = [
@@ -48,6 +49,7 @@ function init() {
   filterStatus.addEventListener("change", renderTasks)
   sortBy.addEventListener("change", renderTasks)
   clearCompletedBtn.addEventListener("click", clearCompleted)
+  searchTask.addEventListener("input", renderTasks)
   document.getElementById("closeModal").addEventListener("click", closeModal)
   document.getElementById("cancelEdit").addEventListener("click", closeModal)
 
@@ -201,7 +203,15 @@ function clearCompleted() {
 // Render Functions
 function renderTasks() {
   let filteredTasks = [...tasks]
+  const searchTerm = searchTask.value.toLowerCase().trim()
 
+  if (searchTerm) {
+    filteredTasks = filteredTasks.filter((task) =>
+     task.title.toLowerCase().includes(searchTerm) ||
+     task.subject.toLowerCase().includes(searchTerm) ||
+     task.description.toLowerCase().includes(searchTerm)
+    )
+  }
   // Apply filters
   const priorityFilter = filterPriority.value
   const statusFilter = filterStatus.value

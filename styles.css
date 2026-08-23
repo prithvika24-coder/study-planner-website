@@ -315,7 +315,24 @@ body {
   font-family: var(--font-body);
   cursor: pointer;
 }
+.filter-group input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  outline: none;
+}
 
+.filter-group input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+}
+
+.search-group input {
+  min-width: 220px;
+}
 /* Tasks Section */
 .tasks-section {
   margin-bottom: var(--spacing-xl);
