@@ -4,6 +4,26 @@
 let tasks = JSON.parse(localStorage.getItem("studyTasks")) || []
 let currentEditId = null
 
+async function loadTasksFromDatabase() {
+  try {
+    const response = await fetch("/api/tasks/");
+
+    if (!response.ok) {
+      throw new Error("Failed to load tasks");
+    }
+
+    const databaseTasks = await response.json();
+
+    tasks = databaseTasks;
+
+    renderTasks();
+    updateStats();
+    updateProgress();
+    renderTimeline();
+  } catch (error) {
+    console.error("Error loading tasks:", error);
+  }
+}
 // DOM Elements
 const taskForm = document.getElementById("taskForm")
 const editTaskForm = document.getElementById("editTaskForm")
@@ -52,7 +72,8 @@ function init() {
   searchTask.addEventListener("input", renderTasks)
   document.getElementById("closeModal").addEventListener("click", closeModal)
   document.getElementById("cancelEdit").addEventListener("click", closeModal)
-
+  loadTasksFromDatabase();
+  loadCurrentUser()
   // Close modal on outside click
   editModal.addEventListener("click", (e) => {
     if (e.target === editModal) closeModal()
@@ -83,31 +104,48 @@ function toggleTheme() {
 }
 
 // Task Management
-function handleAddTask(e) {
+async function handleAddTask(e) {
   e.preventDefault()
 
-  const task = {
-    id: Date.now(),
+  const taskData = {
     title: document.getElementById("taskTitle").value,
     subject: document.getElementById("taskSubject").value,
-    date: document.getElementById("taskDate").value,
+    due_date: document.getElementById("taskDate").value,
     time: document.getElementById("taskTime").value,
     priority: document.getElementById("taskPriority").value,
     description: document.getElementById("taskDescription").value,
     completed: false,
-    createdAt: new Date().toISOString(),
   }
 
-  tasks.push(task)
-  saveTasks()
-  taskForm.reset()
-  renderTasks()
-  updateStats()
-  updateProgress()
-  renderTimeline()
+  try {
+    const response = await fetch("/api/tasks/add/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    })
 
-  // Show success feedback
-  showNotification("Task added successfully! 🎉")
+    if (!response.ok) {
+      throw new Error("Failed to add task")
+    }
+
+    const newTask = await response.json()
+
+    tasks.push(newTask)
+
+    taskForm.reset()
+
+    renderTasks()
+    updateStats()
+    updateProgress()
+    renderTimeline()
+
+    showNotification("Task added successfully! 🎉")
+  } catch (error) {
+    console.error("Error adding task:", error)
+    showNotification("Failed to add task ❌")
+  }
 }
 
 function handleEditTask(e) {
@@ -474,3 +512,48 @@ function checkReminders() {
 
 // Check reminders every minute
 setInterval(checkReminders, 60000)
+
+init()
+async function loadCurrentUser() {
+  try {
+    const response = await fetch("/api/user/")
+    const data = await response.json()
+
+    const authButtons = document.getElementById("authButtons")
+
+    if (!authButtons) return
+
+    if (data.logged_in) {
+      authButtons.innerHTML = `
+        <span class="user-info">👤 ${data.username}</span>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      `
+
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", logoutUser)
+    } else {
+      authButtons.innerHTML = `
+        <a href="/signup-page/" class="btn-primary">Sign Up</a>
+        <a href="/login-page/" class="btn-secondary">Login</a>
+      `
+    }
+
+  } catch (error) {
+    console.error("Error loading user:", error)
+  }
+}
+async function logoutUser() {
+  try {
+    const response = await fetch("/api/logout/", {
+      method: "POST"
+    })
+
+    if (response.ok) {
+      window.location.href = "/login-page/"
+    }
+
+  } catch (error) {
+    console.error("Logout error:", error)
+  }
+}

@@ -1,16 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Study Planner - Organize Your Academic Life</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-     Header 
     <header class="header">
         <div class="container">
             <h1 class="logo">📚 Smart Study Planner</h1>
@@ -22,9 +22,12 @@
         </div>
     </header>
 
-     Main Content 
     <main class="main-content">
         <div class="container">
+            <div class="auth-buttons" id="authButtons">
+              <a href="/signup-page/" class="btn-primary">Sign Up</a>
+              <a href="/login-page/" class="btn-secondary">Login</a>
+            </div>
              Stats Overview 
             <section class="stats-section">
                 <div class="stat-card">
@@ -57,7 +60,6 @@
                 </div>
             </section>
 
-             Add Task Section 
             <section class="add-task-section">
                 <div class="card">
                     <h2 class="section-title">Add New Study Task</h2>
@@ -101,7 +103,6 @@
                 </div>
             </section>
 
-             Filter and Sort 
             <section class="filter-section">
                 <div class="filter-controls">
                     <div class="filter-group search-group">
@@ -140,7 +141,6 @@
                 </div>
             </section>
 
-             Tasks List 
             <section class="tasks-section">
                 <div class="section-header">
                     <h2 class="section-title">Your Study Tasks</h2>
@@ -156,7 +156,6 @@
                 </div>
             </section>
 
-             Timeline Section 
             <section class="timeline-section">
                 <h2 class="section-title">Study Timeline</h2>
                 <div id="timeline" class="timeline">
@@ -164,7 +163,6 @@
                 </div>
             </section>
 
-             Progress Section 
             <section class="progress-section">
                 <div class="card">
                     <h2 class="section-title">Overall Progress</h2>
@@ -202,14 +200,12 @@
         </div>
     </main>
 
-     Footer 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Smart Study Planner. Built with HTML, CSS & JavaScript.</p>
+            <p>&copy; 2025 Smart Study Planner.</p>
         </div>
     </footer>
 
-     Edit Modal 
     <div id="editModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -255,6 +251,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="{% static 'script.js' %}"></script>
 </body>
 </html>
